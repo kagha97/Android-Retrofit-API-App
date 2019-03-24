@@ -19,13 +19,10 @@ import java.util.ArrayList;
 //Adapter for the recycler view
 public class RepresentativeListAdapter extends RecyclerView.Adapter<RepresentativeListAdapter.ViewHolder> {
 
-
     //
     private ArrayList<Representative> RepData;
     private Context Context;
     private ImageView RepImage;
-
-
 
 
     //Setting the fields with data
@@ -34,8 +31,6 @@ public class RepresentativeListAdapter extends RecyclerView.Adapter<Representati
         this.Context = context;
 
     }
-
-
 
     @Override
     public RepresentativeListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int id) {
@@ -105,9 +100,5 @@ public class RepresentativeListAdapter extends RecyclerView.Adapter<Representati
         }
 
     }
-
-
-
-
 
 }
