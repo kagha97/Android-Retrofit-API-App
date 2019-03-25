@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class FetchRepSet extends AsyncTask<String, Void, String> {
     private Spinner mSpinner;
@@ -54,6 +56,8 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
 
             }
 
+            //sort the list
+            Collections.sort(repSetList);
 
            mSpinner.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, repSetList));
 
@@ -61,7 +65,7 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
 
 
         } catch (JSONException e) {
-
+            Log.d(LOG_TAG, e.getMessage());
 
         }
 
