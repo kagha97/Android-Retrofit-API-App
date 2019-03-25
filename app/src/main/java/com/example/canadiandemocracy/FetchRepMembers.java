@@ -17,6 +17,7 @@ public class FetchRepMembers extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     private Context context;
+    private String reg;
 
 
     FetchRepMembers (Context context) {
@@ -36,6 +37,7 @@ public class FetchRepMembers extends AsyncTask<String, Void, String> {
             Intent intent = new Intent (context, RepresentativeList.class);
 
             intent.putExtra("com.example.canadiandemocracy.REP_JSON", s);
+            intent.putExtra("com.example.canadiandemocracy.NAME", reg);
 
             context.startActivity(intent);
 
@@ -53,6 +55,7 @@ public class FetchRepMembers extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        reg = strings[0];
         return NetworkUtils.getRepMembers(strings[0]);
     }
 }

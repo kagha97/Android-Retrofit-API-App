@@ -29,6 +29,9 @@ public class RepresentativeList extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle(getIntent().getStringExtra("com.example.canadiandemocracy.NAME"));
+
+
         //set up resycler view
         RecylerView = findViewById(R.id.recyclerView);
 
@@ -57,6 +60,7 @@ public class RepresentativeList extends AppCompatActivity {
 
             for (int i=0; i < itemsArray.length(); i++) {
                 JSONObject rep = itemsArray.getJSONObject(i);
+
                 reps.add(new Representative(rep.getString("name"), rep.getString("party_name"), rep.getString("personal_url"),rep.getString("photo_url")));
             }
 

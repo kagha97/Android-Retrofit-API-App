@@ -25,7 +25,10 @@ public class Representative {
     }
 
     public String getParty() {
-        return party;
+        if (party.equals("")) {
+            return "No party details.";
+        }
+            return party;
     }
 
     public String getUrl() {
