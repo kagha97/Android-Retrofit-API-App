@@ -47,7 +47,7 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
                 Log.d(LOG_TAG, itemsArray.getString(i));
                 String repName = repSet.get("name").toString();
 
-                Log.d(LOG_TAG, "Name: " +  repName);
+                Log.d(LOG_TAG, i + " URL: " +  repSet.get("url"));
                 repSetList.add(repName);
 
                 i++;

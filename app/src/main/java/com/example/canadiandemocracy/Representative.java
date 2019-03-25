@@ -1,15 +1,17 @@
 package com.example.canadiandemocracy;
 
+import android.net.Uri;
+
 public class Representative {
 
     //Fields for rep info
     private String name;
     private String party;
     private String url;
-    private final int imageResource;
+    private final String imageResource;
 
 
-    public Representative(String name, String party, String url, int imageResource) {
+    public Representative(String name, String party, String url, String imageResource) {
         this.name = name;
         this.party = party;
         this.url = url;
@@ -30,7 +32,7 @@ public class Representative {
         return url;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 

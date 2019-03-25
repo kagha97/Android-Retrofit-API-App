@@ -20,6 +20,8 @@ public class NetworkUtils {
     private static final String MAX_RESULTS = "limit";
     //
 
+    private static final String BASE_URL = "https://represent.opennorth.ca/representatives";
+
 
 
 
@@ -80,6 +82,71 @@ public class NetworkUtils {
         }
 
         Log.d(LOG_TAG, "JSON rsp");
+        Log.d(LOG_TAG, repSetJSONString);
+        return repSetJSONString;
+    }
+
+
+    static String getRepMembers(String rep) {
+        rep = rep.toLowerCase();
+        String loc = rep.replace(' ', '-') + "/";
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String repSetJSONString = null;
+
+
+        try {
+            Uri builtURI = Uri.parse(BASE_URL).buildUpon()
+                    .appendPath(loc)
+                    .appendQueryParameter(MAX_RESULTS, "1000")
+                    .build();
+
+            URL requestURL = new URL(builtURI.toString());
+            Log.d(LOG_TAG, "URL: " + builtURI);
+            urlConnection = (HttpURLConnection) requestURL.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            // Get the InputStream.
+            InputStream inputStream = urlConnection.getInputStream();
+
+            // Create a buffered reader from that input stream.
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            // Use a StringBuilder to hold the incoming response.
+            StringBuilder builder = new StringBuilder();
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+
+                builder.append("\n");
+            }
+
+            if (builder.length() == 0) {
+                // Stream was empty. No point in parsing.
+                return null;
+            }
+
+            repSetJSONString = builder.toString();
+
+        } catch (IOException e) {
+
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Log.d(LOG_TAG, "JSON RSP mem");
         Log.d(LOG_TAG, repSetJSONString);
         return repSetJSONString;
     }
