@@ -16,7 +16,8 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner mSpinner;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    RetrofitFetch retrofitFetch = new RetrofitFetch();
+    FetchRepSet fetch;
+    private String url;
 
 
     @Override
@@ -27,10 +28,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mSpinner = (Spinner)findViewById(R.id.spinner);
 
 
-
-        Log.d(LOG_TAG, "MainActivtiy JSON: " + retrofitFetch.getRepSetString());
-        new FetchRepSet(this, mSpinner).getRepSets();
-
+       fetch = new FetchRepSet(this, mSpinner, url);
+        fetch.getRepSets();
 
         mSpinner.setOnItemSelectedListener(this);
 
@@ -45,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        new FetchRepMembers(this).execute(parent.getItemAtPosition(position).toString());
+        Log.d(LOG_TAG, "onItem url: " + fetch.getUrlPos(position));
+        new FetchRepMembers(this).fetchRepMembers(fetch.getUrlPos(position));
 
     }
 
