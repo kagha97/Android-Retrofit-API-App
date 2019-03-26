@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 //Adapter for the recycler view
 public class RepresentativeListAdapter extends RecyclerView.Adapter<RepresentativeListAdapter.ViewHolder> {
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
+    private static final String LOG_TAG = RetrofitFetch.class.getSimpleName();
     //
     private ArrayList<Representative> RepData;
     private Context Context;

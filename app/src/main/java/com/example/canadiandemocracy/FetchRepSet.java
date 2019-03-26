@@ -5,24 +5,27 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
-public class FetchRepSet extends AsyncTask<String, Void, String> {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class FetchRepSet {
     private Spinner mSpinner;
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
+    private static final String LOG_TAG = RetrofitFetch.class.getSimpleName();
 
     private ArrayList<String> repSetList = new ArrayList<>();
     private Context mContext;
+
 
 
     public FetchRepSet (Context context, Spinner mSpinner) {
@@ -30,13 +33,39 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
         this.mContext = context;
 
     }
+    public void getRepSets() {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://represent.opennorth.ca");
+        Retrofit retrofit = builder.build();
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+        repSets client = retrofit.create(repSets.class);
+
+
+        Call<ResponseBody> call = client.apiResponse();
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+
+                    fetchRepSets(response.body().string());
+                   // Log.d(LOG_TAG, "JSON RESPONSE RETROFIT: "  + JSONREPSETS);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    protected void fetchRepSets(String s) {
 
         try {
-            Log.d(LOG_TAG, s);
+        //    Log.d(LOG_TAG, s);
             JSONObject jsonObject = new JSONObject(s);
             JSONArray itemsArray = jsonObject.getJSONArray("objects");
             Log.d(LOG_TAG, itemsArray.toString());
@@ -61,9 +90,6 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
 
            mSpinner.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, repSetList));
 
-
-
-
         } catch (JSONException e) {
             Log.d(LOG_TAG, e.getMessage());
 
@@ -72,8 +98,4 @@ public class FetchRepSet extends AsyncTask<String, Void, String> {
     }
 
 
-    @Override
-    protected String doInBackground(String... strings) {
-        return NetworkUtils.getRepSet();
-    }
 }
