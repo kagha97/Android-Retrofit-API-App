@@ -24,27 +24,31 @@ public class FetchRepSet {
     private Spinner mSpinner;
     private static final String LOG_TAG = FetchRepSet.class.getSimpleName();
 
+    //keep track of the names of rep sets
     private ArrayList<String> repSetList = new ArrayList<>();
+    //keep all the rep url's
     private ArrayList<String> repSetUrl = new ArrayList<>();
     private Context mContext;
     private String url;
 
 
 
+    //constructor
     public FetchRepSet (Context context, Spinner mSpinner, String url) {
         this.mSpinner = mSpinner;
         this.mContext = context;
         this.url = url;
 
     }
+
+    //get all the rep sets using retrofit from api
     public void getRepSets() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://represent.opennorth.ca");
         Retrofit retrofit = builder.build();
 
+        //use repSets interface for GET req
         repSets client = retrofit.create(repSets.class);
-
-
         Call<ResponseBody> call = client.apiResponse();
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -52,10 +56,10 @@ public class FetchRepSet {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
 
+                    //pass the json string to function so lists can be populated
                     fetchRepSets(response.body().string());
-                   // Log.d(LOG_TAG, "JSON RESPONSE RETROFIT: "  + JSONREPSETS);
                 } catch (Exception e) {
-
+                    Log.d("Retrofit Error: ", e.toString());
                 }
             }
 
@@ -75,13 +79,15 @@ public class FetchRepSet {
     protected void fetchRepSets(String s) {
 
         try {
-        //    Log.d(LOG_TAG, s);
+
+            //get data out of json objects
             JSONObject jsonObject = new JSONObject(s);
             JSONArray itemsArray = jsonObject.getJSONArray("objects");
             Log.d(LOG_TAG, itemsArray.toString());
 
             int i = 0;
 
+            //go through data and add to lists
             while (i < itemsArray.length()) {
                 // Get the current item information.
                 JSONObject repSet = itemsArray.getJSONObject(i);
@@ -96,9 +102,8 @@ public class FetchRepSet {
 
             }
 
-            //sort the list
-          // Collections.sort(repSetList);
 
+            //add data to to spinner
            mSpinner.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, repSetList));
 
         } catch (JSONException e) {

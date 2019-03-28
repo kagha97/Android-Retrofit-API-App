@@ -28,32 +28,6 @@ public class FetchRepMembers {
 
 
 
-        public void getRepMembers(String s) {
-
-        try {
-            Log.d(LOG_TAG, s);
-            JSONObject jsonObject = new JSONObject(s);
-            JSONArray itemsArray = jsonObject.getJSONArray("objects");
-
-            Intent intent = new Intent (context, RepresentativeList.class);
-
-            intent.putExtra("com.example.canadiandemocracy.REP_JSON", s);
-            intent.putExtra("com.example.canadiandemocracy.NAME", itemsArray.getJSONObject(0).get("representative_set_name").toString());
-
-            context.startActivity(intent);
-
-
-
-
-
-        } catch (JSONException e) {
-
-
-        }
-
-    }
-
-
     public void fetchRepMembers(String rep) {
         //   rep = rep.toLowerCase();
         //  String loc = rep.replace(' ', '-') + "/";
@@ -85,6 +59,30 @@ public class FetchRepMembers {
 
             }
         });
+    }
+
+    public void getRepMembers(String s) {
+
+        try {
+            Log.d(LOG_TAG, s);
+
+            //convert string to json array
+            JSONObject jsonObject = new JSONObject(s);
+            JSONArray itemsArray = jsonObject.getJSONArray("objects");
+
+            //pass to activity
+            Intent intent = new Intent (context, RepresentativeList.class);
+
+            intent.putExtra("com.example.canadiandemocracy.REP_JSON", s);
+            intent.putExtra("com.example.canadiandemocracy.NAME", itemsArray.getJSONObject(0).get("representative_set_name").toString());
+
+            context.startActivity(intent);
+
+        } catch (JSONException e) {
+            Log.d("Retrofit Error: ", e.toString());
+
+        }
+
     }
 
 }

@@ -28,16 +28,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mSpinner = (Spinner)findViewById(R.id.spinner);
 
 
+        //pass spinner to it can be populated
        fetch = new FetchRepSet(this, mSpinner, url);
-        fetch.getRepSets();
+       fetch.getRepSets();
 
+       //set listener so activity can be launched on click
         mSpinner.setOnItemSelectedListener(this);
-
-
-
-
-
-
 
     }
 
@@ -45,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d(LOG_TAG, "onItem url: " + fetch.getUrlPos(position));
+
+        //pass position of spinner
         new FetchRepMembers(this).fetchRepMembers(fetch.getUrlPos(position));
 
     }

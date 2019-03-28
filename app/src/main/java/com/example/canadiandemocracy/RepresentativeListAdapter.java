@@ -59,7 +59,6 @@ public class RepresentativeListAdapter extends RecyclerView.Adapter<Representati
         private TextView name;
         private TextView party;
         private TextView url;
-        private String repImage;
         private Representative currentRep;
 
 
@@ -101,7 +100,7 @@ public class RepresentativeListAdapter extends RecyclerView.Adapter<Representati
             Toast.makeText(Context, message,Toast.LENGTH_SHORT).show();
         }
 
-        //binding the data from the game object to card
+        //binding the data from the rep object to card
         void bindTo (Representative rep) {
             this.currentRep = rep;
             name.setText(rep.getName());
@@ -109,7 +108,8 @@ public class RepresentativeListAdapter extends RecyclerView.Adapter<Representati
             url.setText(rep.getUrl());
 
             Log.d(LOG_TAG, rep.getImageResource());
-            Glide.with(Context).load(rep.getImageResource()).into(RepImage);
+
+             Glide.with(Context).load(rep.getImageResource()).placeholder(R.drawable.ic_person).into(RepImage);
         }
 
     }

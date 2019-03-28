@@ -50,6 +50,7 @@ public class RepresentativeList extends AppCompatActivity {
 
     }
 
+    //update adapter with json data from intent
     private void initializeData() {
         JSONObject jsonObject = null;
 
