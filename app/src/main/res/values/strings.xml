@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Canadian Democracy</string>
+    <string name="rep_pic">Rep Pic</string>
+    <string name="name">Name</string>
+    <string name="url">url</string>
+    <string name="choose_your_legislature">Choose Your Legislature</string>
+    <string name="title_activity_representative_list">RepresentativeList</string>
+    <string name="party">Party</string>
+    <string name="gov_t">Gov\'t</string>
+    <string name="image">Image</string>
+</resources>
